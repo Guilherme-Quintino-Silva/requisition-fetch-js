@@ -39,12 +39,12 @@ async function getReturn() {
                 createImage('img', resp.data[i].avatar, resp.data[i].first_name);
                 createContent('p', resp.data[i].email);
             } catch (error) {
-                console.log('Algo de errado aconteceu ', error);
+                throw new Error('Algo de errado aconteceu ', error);
             }
         }
 
         console.log(resp);
     } catch (err) {
-        console.error('Algo deu errado ', err);
+        throw new Error('Algo deu errado ', err);
     }
 }
