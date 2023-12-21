@@ -1,7 +1,5 @@
 'use strict'
 
-const URL = `https://reqres.in/api/users?page=1`;
-
 const body = document.getElementsByTagName('body');
 const div = document.createElement('div');
 
@@ -20,16 +18,33 @@ const createContent = (element, cont) => {
     div.appendChild(content);
 }
 
-fetch(URL).then((res) => {
-    return res.json();
-}).then((res) => {
-    for (let i in res.data) {
-        console.log(res.data[i]);
-        try {
-            createImage('img', res.data[i].avatar, res.data[i].first_name);
-            createContent('p', res.data[i].email);
-        } catch (error) {
-            console.log('Algo de errado aconteceu ', error);
+window.addEventListener("load", () => {
+    this.getReturn();
+  });
+
+async function getReturn() {
+    const URL = `https://reqres.in/api/users?page=1`;
+    try {
+
+        const response = await fetch(URL);
+
+        if (!response.ok) {
+            throw new Error('Houve um problema.');
         }
+        const resp = await response.json();
+
+        for (let i in resp.data) {
+            console.log(resp.data[i]);
+            try {
+                createImage('img', resp.data[i].avatar, resp.data[i].first_name);
+                createContent('p', resp.data[i].email);
+            } catch (error) {
+                console.log('Algo de errado aconteceu ', error);
+            }
+        }
+
+        console.log(resp);
+    } catch (err) {
+        console.error('Algo deu errado ', err);
     }
-});
+}
